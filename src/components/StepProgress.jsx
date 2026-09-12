@@ -2,7 +2,7 @@ import { Check } from 'lucide-react'
 
 export default function StepProgress({ current }) {
   const total = 5
-  const labels = ['Сумма', 'Документ', 'Проверка', 'Результат', 'Бронь']
+  const labels = ['Старт', 'Документ', 'Проверка', 'Результат', 'Бронь']
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">

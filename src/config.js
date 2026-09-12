@@ -4,7 +4,7 @@ export const CONFIG = {
   DISCOUNT_RATE: 0.1,
 }
 
-const STEP_LABELS = ['Сумма', 'Документ', 'Проверка', 'Результат', 'Бронь']
+const STEP_LABELS = ['Старт', 'Документ', 'Проверка', 'Результат', 'Бронь']
 
 export const STEP = {
   AMOUNT: 1,

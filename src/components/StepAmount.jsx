@@ -1,17 +1,6 @@
-import { ShieldCheck, ChevronRight, Lock } from 'lucide-react'
-import { useState } from 'react'
-import { maskAmount, parseAmount } from '../utils/format'
+import { ShieldCheck, ChevronRight } from 'lucide-react'
 
-export default function StepAmount({ initial, onNext }) {
-  const [raw, setRaw] = useState(initial ? String(initial) : '')
-  const amount = parseAmount(raw)
-  const valid = amount >= 100000
-
-  function submit() {
-    if (!valid) return
-    onNext(amount)
-  }
-
+export default function StepAmount({ onNext }) {
   return (
     <div className="animate-fadeIn space-y-6">
       <header className="text-center">
@@ -22,29 +11,6 @@ export default function StepAmount({ initial, onNext }) {
         строительных смет до 10%.</h2>
         <p className="mx-auto mt-3 text-sm leading-relaxed text-slate-400">Вы подключились к закрытой ИИ-платформе «ГлавСнаб-ИИ». Сервис разработан для ликвидации розничных накруток строительных сетей, баз и рынков при ремонте квартир и строительстве домов. Алгоритм напрямую сопоставляет номенклатуру вашего счета со складскими базами заводов-изготовителей и пересчитывает заказ по закрытой отрезной себестоимости.</p>
       </header>
-
-      <div>
-        <label className="mb-2 block text-sm font-medium text-slate-300">Введите общую сумму вашего текущего счета, ₽</label>
-        <div className="relative">
-          <input
-            inputMode="numeric"
-            autoComplete="off"
-            autoFocus
-            value={maskAmount(raw)}
-            onChange={(e) => setRaw(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && valid && submit()}
-            placeholder="500 000"
-            className="w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-4 text-2xl font-semibold tracking-wide text-white outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30"
-          />
-          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-slate-500">₽</span>
-        </div>
-        {raw !== '' && !valid && (
-          <p className="mt-2 text-sm text-amber-400">⚠️ Внимание: Минимальная сумма счета для активации транзитного тарифа дистрибьютора составляет 100 000 ₽.</p>
-        )}
-        <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
-          <Lock className="h-3.5 w-3.5" /> Безопасно. Данные шифруются. ИИ сверяет итоговую сумму с вашим файлом на Шаге 3.
-        </p>
-      </div>
 
       <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
         <div className="flex items-start gap-3">
@@ -58,11 +24,10 @@ export default function StepAmount({ initial, onNext }) {
       </div>
 
       <button
-        onClick={submit}
-        disabled={!valid}
-        className="group flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
+        onClick={onNext}
+        className="group flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
       >
-Запустить ИИ-анализ
+        Продолжить
         <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" />
       </button>
     </div>
