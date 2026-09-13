@@ -38,10 +38,9 @@ export default function StepSuccess({ amount, onNext }) {
       <div className="flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
         <p className="text-sm leading-relaxed text-slate-200">
-          <span className="font-semibold text-emerald-400">✔ Контур ИИ подтвердил НДС 22%.</span>{' '}
-          Розничная наценка аннулирована. Стоимость материалов пересчитана напрямую от
-          заводов-производителей. Ваша чистая экономия сформирована. Гарантия сохранения цены
-          от дневных колебаний прайсов заводов зафиксирована на 15:00 минут.
+          Гарантия сохранения цены от дневных колебаний прайсов заводов зафиксирована на{' '}
+          {CONFIG.HOLD_MINUTES} минут. Нажмите кнопку ниже, чтобы закрепить за собой скидку и
+          открыть доступ к оптовой отгрузке.
         </p>
       </div>
 
@@ -56,7 +55,7 @@ export default function StepSuccess({ amount, onNext }) {
         className="group flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400"
       >
         <Lock className="h-5 w-5" />
-        Начать ии пересчет и забронировать цену
+        Начать ИИ пересчет и забронировать цену
         <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" />
       </button>
     </div>
