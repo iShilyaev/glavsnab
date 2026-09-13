@@ -61,7 +61,6 @@ export default function App() {
               <Building2 className="h-6 w-6 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-lg font-extrabold tracking-tight text-white">ГлавСнаб-ИИ</p>
               <p className="text-[11px] font-medium uppercase tracking-wider text-emerald-400">Транзитный тарифСЕРВЕР ПОДКЛЮЧЕН. <br />ДОСТУП К ОПТОВЫМ БАЗАМ ОТКРЫТ.</p>
             </div>
           </div>
@@ -108,9 +107,16 @@ export default function App() {
         </main>
 
         {/* Footer */}
-        <footer className="mt-6 text-center text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} ГлавСнаб-ИИ — прямые поставки с заводов-производителей</p>
-          <p className="mt-1 text-slate-600">ИИ-ядро · Транзитный тариф</p>
+        <footer className="mt-6 text-center text-[10px] leading-relaxed text-slate-600">
+          <p>
+            &copy; 2026 ИНН 1650446475; все права защищены:{' '}
+            <a href="#privacy" className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
+              политика конфиденциальности
+            </a>{' '}
+            <a href="#terms" className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
+              пользовательские соглашения
+            </a>
+          </p>
         </footer>
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function StepAmount({ onNext }) {
         onClick={onNext}
         className="group flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
       >
-        Продолжить
+        Запустить ИИ-анализ цен
         <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" />
       </button>
     </div>
