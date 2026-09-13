@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { UploadCloud, FileText, X, ChevronRight, CheckCircle2, Lock } from 'lucide-react'
-import { maskAmount, parseAmount } from '../utils/format'
+import { CONFIG } from '../config'
+import { formatRub, maskAmount, parseAmount } from '../utils/format'
 
 const ACCEPTED = '.pdf,.jpg,.jpeg,.png'
 const OK_TYPES = ['application/pdf', 'image/jpeg', 'image/png']
@@ -13,7 +14,7 @@ export default function StepUpload({ initialAmount, onBack, onNext }) {
   const inputRef = useRef(null)
 
   const amount = parseAmount(raw)
-  const amountValid = amount >= 100000
+  const amountValid = amount >= CONFIG.MIN_AMOUNT
   const canSubmit = amountValid && !!file
 
   function validate(f) {
@@ -21,7 +22,7 @@ export default function StepUpload({ initialAmount, onBack, onNext }) {
     const extOk = /\.(pdf|jpe?g|png)$/i.test(f.name)
     const typeOk = OK_TYPES.includes(f.type) || extOk
     if (!typeOk) return 'Допустимы только .pdf, .jpg, .jpeg, .png'
-    if (f.size > 20 * 1024 * 1024) return 'Файл больше 20 МБ'
+    if (f.size > CONFIG.MAX_FILE_MB * 1024 * 1024) return `Файл больше ${CONFIG.MAX_FILE_MB} МБ`
     return ''
   }
 
@@ -80,13 +81,13 @@ export default function StepUpload({ initialAmount, onBack, onNext }) {
             value={maskAmount(raw)}
             onChange={(e) => setRaw(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && canSubmit && submit()}
-            placeholder="100 000"
+            placeholder={formatRub(CONFIG.MIN_AMOUNT)}
             className="w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-4 text-2xl font-semibold tracking-wide text-white outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30"
           />
           <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-slate-500">₽</span>
         </div>
         {raw !== '' && !amountValid && (
-          <p className="mt-2 text-sm text-amber-400">⚠️ Внимание: Минимальная сумма счета для активации транзитного тарифа дистрибьютора составляет 100 000 ₽.</p>
+          <p className="mt-2 text-sm text-amber-400">⚠️ Внимание: Минимальная сумма счета для активации транзитного тарифа дистрибьютора составляет {formatRub(CONFIG.MIN_AMOUNT)} ₽.</p>
         )}
         <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
           <Lock className="h-3.5 w-3.5" /> Безопасно. Данные шифруются. ИИ сверяет итоговую сумму с вашим файлом.
@@ -142,7 +143,7 @@ export default function StepUpload({ initialAmount, onBack, onNext }) {
             <p className="text-sm font-medium text-slate-200">
               Перетащите файл сюда или нажмите для выбора
             </p>
-            <p className="text-xs text-slate-500">PDF · JPG · PNG · до 20 МБ</p>
+            <p className="text-xs text-slate-500">PDF · JPG · PNG · до {CONFIG.MAX_FILE_MB} МБ</p>
           </div>
         )}
       </div>

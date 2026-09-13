@@ -10,9 +10,10 @@ export function createTransaction() {
   return txnSeed()
 }
 
-async function postPayload(payload) {
+async function postPayload(url, payload) {
+  if (!url) return
   try {
-    await fetch(CONFIG.WEBHOOK_URL, {
+    await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
@@ -24,7 +25,7 @@ async function postPayload(payload) {
 }
 
 export function sendAmountRecord(transactionId, amount, isEven) {
-  postPayload({
+  postPayload(CONFIG.WEBHOOK_URL, {
     event: 'amount_submitted',
     transaction_id: transactionId,
     amount,
@@ -35,7 +36,7 @@ export function sendAmountRecord(transactionId, amount, isEven) {
 }
 
 export function sendFileRecord(transactionId, file, amount) {
-  postPayload({
+  postPayload(CONFIG.WEBHOOK_URL, {
     event: 'invoice_uploaded',
     transaction_id: transactionId,
     amount,
@@ -46,14 +47,22 @@ export function sendFileRecord(transactionId, file, amount) {
   })
 }
 
-export function sendBookingRecord(transactionId, name, phone, amount, route) {
-  postPayload({
-    event: 'booking_confirmed',
+export function sendCrmLead({ transactionId, name, phone, amount, invoiceFileName, invoiceFileUrl, route }) {
+  const url = CONFIG.CRM_WEBHOOK_URL || CONFIG.WEBHOOK_URL
+  postPayload(url, {
+    event: 'crm_lead',
+    destination: 'amocrm',
     transaction_id: transactionId,
     name,
     phone,
     amount,
+    invoice_file_url: invoiceFileUrl || '',
+    invoice_file_name: invoiceFileName || '',
     route,
     ts: new Date().toISOString(),
   })
+}
+
+export function openMaxBot() {
+  window.location.assign(CONFIG.MAX_BOT_URL)
 }

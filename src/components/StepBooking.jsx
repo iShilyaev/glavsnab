@@ -1,38 +1,21 @@
 import { useState } from 'react'
-import { User, Phone, Lock, CheckCircle2, Loader2 } from 'lucide-react'
+import { User, Phone, Lock, Loader2 } from 'lucide-react'
 import { maskPhone, isPhoneComplete } from '../utils/format'
+import MaxIcon from './MaxIcon'
 
-export default function StepBooking({ route, onSubmit, onBack }) {
+export default function StepBooking({ onSubmit, onBack }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [sending, setSending] = useState(false)
-  const [done, setDone] = useState(false)
 
   const nameOk = name.trim().length >= 2
   const phoneOk = isPhoneComplete(phone)
   const canSubmit = nameOk && phoneOk && !sending
 
-  async function submit() {
+  function submit() {
     if (!canSubmit) return
     setSending(true)
-    await onSubmit(name.trim(), phone)
-    setSending(false)
-    setDone(true)
-  }
-
-  if (done) {
-    return (
-      <div className="animate-scaleIn flex flex-col items-center gap-4 py-8 text-center">
-        <div className="flex h-20 w-20 animate-pulseGlow items-center justify-center rounded-full bg-emerald-500/20 ring-1 ring-emerald-500/40">
-          <CheckCircle2 className="h-12 w-12 text-emerald-400" />
-        </div>
-        <h2 className="text-2xl font-bold text-white">Бронь подтверждена!</h2>
-        <p className="max-w-sm text-sm text-slate-400">
-          Мы зафиксировали за вами транзитный тариф. Менеджер ГлавСнаб-ИИ свяжется с вами по номеру{' '}
-          <span className="font-semibold text-emerald-400">{phone}</span> для отправки расчета и подтверждения брони в WhatsApp.
-        </p>
-      </div>
-    )
+    onSubmit(name.trim(), phone)
   }
 
   return (
@@ -43,7 +26,7 @@ export default function StepBooking({ route, onSubmit, onBack }) {
         </div>
         <h2 className="text-2xl font-bold leading-tight text-white sm:text-3xl">Активировать транзитный тариф и закрепить цену за номером</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-slate-400">
-          Оставьте контакты — менеджер ГлавСнаб-ИИ отправит расчёт и подтвердит бронь в WhatsApp.
+          Оставьте контакты — данные уйдут в CRM, и вы сразу перейдёте в чат-бот MAX для подтверждения брони.
         </p>
       </header>
 
@@ -63,9 +46,7 @@ export default function StepBooking({ route, onSubmit, onBack }) {
         </div>
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-slate-300">
-            Телефон со связанным WhatsApp
-          </label>
+          <label className="mb-1.5 block text-sm font-medium text-slate-300">Телефон</label>
           <div className="relative">
             <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
             <input
@@ -99,17 +80,17 @@ export default function StepBooking({ route, onSubmit, onBack }) {
         >
           {sending ? (
             <>
-              <Loader2 className="h-5 w-5 animate-spin" /> Бронирование...
+              <Loader2 className="h-5 w-5 animate-spin" /> Открываем MAX...
             </>
           ) : (
             <>
-              <Lock className="h-5 w-5" /> Забронировать цену
+              <MaxIcon className="h-5 w-5 rounded-[5px]" /> Забронировать цену в МАКС
             </>
           )}
         </button>
       </div>
       <p className="text-center text-xs text-slate-500">
-        Нажимая «Забронировать», вы соглашаетесь на обработку персональных данных.
+        Нажимая «Забронировать цену в МАКС», вы соглашаетесь на обработку персональных данных.
       </p>
     </div>
   )

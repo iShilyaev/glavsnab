@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { Building2 } from 'lucide-react'
 import { CONFIG, STEP } from './config'
 import MaxIcon from './components/MaxIcon'
-import { createTransaction, sendAmountRecord, sendBookingRecord, sendFileRecord } from './utils/webhook'
+import { createTransaction, openMaxBot, sendAmountRecord, sendCrmLead, sendFileRecord } from './utils/webhook'
 import StepProgress from './components/StepProgress'
 import StepAmount from './components/StepAmount'
 import StepUpload from './components/StepUpload'
@@ -44,11 +44,19 @@ export default function App() {
   }, [])
 
   const submitBooking = useCallback(
-    async (name, phone) => {
-      sendBookingRecord(txn, name, phone, amount, route)
-      await new Promise((r) => setTimeout(r, 700))
+    (name, phone) => {
+      sendCrmLead({
+        transactionId: txn,
+        name,
+        phone,
+        amount,
+        invoiceFileName: file?.name ?? '',
+        invoiceFileUrl: CONFIG.INVOICE_FILE_URL,
+        route,
+      })
+      openMaxBot()
     },
-    [txn, amount, route],
+    [txn, amount, file, route],
   )
 
   return (
@@ -65,7 +73,7 @@ export default function App() {
             </div>
           </div>
           <a
-            href="tel:+79534920276"
+            href={CONFIG.SUPPORT_PHONE_TEL}
             className="flex shrink-0 items-start gap-1.5 rounded-xl border border-slate-700/80 bg-slate-900/50 px-2 py-1.5 text-left no-underline transition hover:border-slate-600 sm:gap-2 sm:px-3 sm:py-2"
           >
             <MaxIcon className="h-7 w-7 shrink-0 rounded-[8px] shadow-md sm:h-9 sm:w-9" />
@@ -74,9 +82,9 @@ export default function App() {
                 Техническая поддержка MAX
               </p>
               <p className="mt-0.5 whitespace-nowrap text-[13px] font-semibold leading-tight text-white sm:text-[15px]">
-                +7(953) 492-02-76
+                {CONFIG.SUPPORT_PHONE}
               </p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] text-slate-400 sm:text-xs">Часы работы: 8:00–18:00</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] text-slate-400 sm:text-xs">Часы работы: {CONFIG.SUPPORT_HOURS}</p>
             </div>
           </a>
         </header>
@@ -109,11 +117,11 @@ export default function App() {
         {/* Footer */}
         <footer className="mt-6 text-center text-[10px] leading-relaxed text-slate-600">
           <p>
-            &copy; 2026 ИНН 1650446475; все права защищены:{' '}
-            <a href="#privacy" className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
+            &copy; {CONFIG.COPYRIGHT_YEAR} ИНН {CONFIG.COMPANY_INN}; все права защищены:{' '}
+            <a href={CONFIG.PRIVACY_URL} className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
               политика конфиденциальности
             </a>{' '}
-            <a href="#terms" className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
+            <a href={CONFIG.TERMS_URL} className="text-slate-500 underline underline-offset-2 transition hover:text-slate-300">
               пользовательские соглашения
             </a>
           </p>

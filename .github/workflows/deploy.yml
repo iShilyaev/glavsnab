@@ -25,6 +25,11 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn build
+        env:
+          VITE_BASE_PATH: /glavsnab/
+          VITE_WEBHOOK_URL: ${{ secrets.VITE_WEBHOOK_URL }}
+          VITE_CRM_WEBHOOK_URL: ${{ secrets.VITE_CRM_WEBHOOK_URL }}
+          VITE_MAX_BOT_URL: ${{ secrets.VITE_MAX_BOT_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
