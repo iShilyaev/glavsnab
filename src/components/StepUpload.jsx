@@ -60,7 +60,7 @@ export default function StepUpload({ initialAmount, onBack, onNext }) {
       <ol className="list-decimal space-y-2 pl-6 text-sm font-medium leading-snug text-slate-100">
         <li>Введите точную сумму вашего заказа</li>
         <li>Загрузите файл текущего счета для перекрестной ИИ-сверки</li>
-        <li>Зафиксируйте прямую цену и заберите спецификацию в Месенджер</li>
+        <li>Зафиксируйте прямую цену и заберите спецификацию в Мессенджер</li>
       </ol>
 
       <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-4">

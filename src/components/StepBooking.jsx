@@ -84,7 +84,7 @@ export default function StepBooking({ onSubmit, onBack }) {
             </>
           ) : (
             <>
-              <MaxIcon className="h-5 w-5 rounded-[5px]" /> Забронировать цену в МАКС
+              Забронировать и получить счёт на оплату
             </>
           )}
         </button>
